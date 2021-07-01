@@ -49,6 +49,10 @@ do
 	then
 		conf.mainFileName = arg[i+1];
 		i = i + 1;
+	elseif arg[i] == '-ishb' or
+	       arg[i] == '--ignore-sharp-bang'	-- Ignore the sharp-bang line
+	then
+		conf.ignoreSharpBang = true;
 	else
 		table.insert(target,arg[i]);
 	end
@@ -61,6 +65,11 @@ do
 	local modName = get_module_name(fileName);
 	local file = assert(io.open(fileName,"r"));
 	sourceFile[fileName] = file:read("a");
+	if conf.ignoreSharpBang
+	then
+		local pattern<const> = "#!.-\n"
+		sourceFile[fileName] = string.gsub(sourceFile[fileName],pattern,"");
+	end
 	file:close();
 end
 

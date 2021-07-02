@@ -1,0 +1,19 @@
+\t1 lmerge\et1
+\p 一个用于合并Lua文件的工具\ep
+\line
+\t2 简介\et2
+\p lmerge是一个简单的工具,用于合并多个Lua文件组成的Lua源程序,便于Lua独立程序的开发.\ep
+\p lmerge通过将源代码在长字符串中存放,运行时动态编译并存入package.preload表实现无损组合Lua源代码的目标.在此种方法中,尚未发现任何可能影响源代码运行的因素\ep
+\line
+\t2 安装\et2
+\p 对于POSIX兼容的系统来说,安装是简单的.请确保计算机上拥有Lua运行环境.对于FreeBSD系统而言,可能需要gmake代替make(未确认).\ep
+\code
+	cd src && make install
+\ecode
+\p 请按照系统的具体情况调整命令的权限\ep
+\line
+\t2 授权协议 \et2
+\p lmerge使用MIT授权协议,详见/LICENSE文件
+\line
+\t2 贡献与反馈 \et2
+\p 作为一个简单的项目,没有必要使用复杂的工作流.如果您在使用中遇到了问题,请通过 tswuyin_st127@163.com 联系我.如果您有需求,请一样通过该邮箱联系我.请将贡献通过git format-patch产生的邮件发送到我的邮箱中\ep

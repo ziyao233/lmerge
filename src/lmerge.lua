@@ -2,7 +2,7 @@
 --[[
 	lmerge
 	File:/src/lmerge.lua
-	Date:2021.07.02
+	Date:2021.11.06
 	By MIT License.
 	Copyright(C) 2021 Suote127.All rights reserved.
 ]]
@@ -18,7 +18,7 @@ local get_module_name = function(fileName)
 end
 
 local get_max_equ_length = function(str)
-	local max = 0;
+	local max = 2;
 	for s in string.gmatch(str,"[=]+")
 	do
 		max = math.max(max,#s);

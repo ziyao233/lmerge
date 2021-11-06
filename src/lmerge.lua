@@ -10,7 +10,8 @@
 local table = require("table");
 
 local conf = {
-		inputFileList = {},
+		inputFileList		= {},
+		resourceFileList	= {},
 	     };
 	
 local get_module_name = function(fileName)
@@ -36,6 +37,18 @@ local spawn_module = function(output,fileName,src)
 	return;
 end
 
+local spawn_resource = function(output,fileName)
+	local file = assert(io.open(fileName,"r"));
+
+	local src  = file:read("a");
+	local equs = string.rep("=",get_max_equ_length(src)+1);
+	local temp = string.format("\n_G.lmerge[ [[%s]] ] = [%s[\n%s\n]%s];\n",
+				   fileName,equs,src,equs);
+	output:write(temp);
+
+	return;
+end
+
 -- Analysis the command argument
 local i = 1;
 local target = conf.inputFileList;
@@ -53,6 +66,11 @@ do
 	       arg[i] == '--ignore-sharp-bang'	-- Ignore the sharp-bang line
 	then
 		conf.ignoreSharpBang = true;
+	elseif arg[i] == "-r" or
+	       arg[i] == "--resource"
+	then
+		table.insert(conf.resourceFileList,arg[i + 1]);
+		i = i + 1;
 	else
 		table.insert(target,arg[i]);
 	end
@@ -75,6 +93,18 @@ end
 
 local output = assert(io.open(conf.outputFileName,"w"));
 output:write("#!/usr/bin/env lua\n");
+if #conf.resourceFileList ~= 0
+then
+	output:write([[
+_G.lmerge = {resource = function(name) return _G.lmerge[name] end}]] .. "\n"
+		    );
+end
+
+for _,fileName in pairs(conf.resourceFileList)
+do
+	spawn_resource(output,fileName);
+end
+
 for fileName,src in pairs(sourceFile)
 do
 	if fileName ~= conf.mainFileName

@@ -1,7 +1,7 @@
 # lmerge
 # Makefile for lmerge
 # File:/src/Makefile
-# Date:2021.07.02
+# Date:2021.11.06
 # By MIT License
 # Copyright(C) 2021 Suote127.All rights reserved.
 
@@ -21,4 +21,3 @@ default: install
 install:
 	$(CP) $(SRC) $(INSTALL_FILE) 
 	$(CHMOD) 777 $(INSTALL_FILE)
-

@@ -2,7 +2,7 @@
 --[[
 	lmerge
 	File:/src/lmerge.lua
-	Date:2021.11.06
+	Date:2021.12.18
 	By MIT License.
 	Copyright(C) 2021 Suote127.All rights reserved.
 ]]
@@ -29,7 +29,7 @@ end
 
 local spawn_module = function(output,fileName,src)
 	local equs = string.rep("=",get_max_equ_length(src)+1);
-	local temp = string.format("\npackage.preload[\"%s\"] = load([%s[\n%s\n]%s]);\n",
+	local temp = string.format("\npackage.preload[\"%s\"] = assert(load([%s[\n%s\n]%s]));\n",
 				   get_module_name(fileName),equs,src,equs);
 
 	output:write(temp);

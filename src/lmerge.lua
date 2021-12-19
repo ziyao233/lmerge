@@ -71,6 +71,19 @@ do
 	then
 		table.insert(conf.resourceFileList,arg[i + 1]);
 		i = i + 1;
+	elseif arg[i] == "-s" or
+	       arg[i] == "--submodule"		-- Support for converting submodule
+	then
+		conf.submodule = true;
+	elseif arg[i] == "--module"
+	then
+		conf.ignoreSharpBang = true;
+		conf.submodule = true;
+		conf.noSharpBang = true;
+	elseif arg[i] == "-nshb" or
+	       arg[i] == "--no-sharp-bang"
+	then
+		conf.noSharpBang = true;
 	else
 		table.insert(target,arg[i]);
 	end
@@ -92,7 +105,10 @@ do
 end
 
 local output = assert(io.open(conf.outputFileName,"w"));
-output:write("#!/usr/bin/env lua\n");
+if not conf.noSharpBang or conf.module
+then
+	output:write("#!/usr/bin/env lua\n");
+end
 if #conf.resourceFileList ~= 0
 then
 	output:write([[
@@ -109,11 +125,17 @@ for fileName,src in pairs(sourceFile)
 do
 	if fileName ~= conf.mainFileName
 	then
-		spawn_module(output,fileName,src);
+		local tmp = conf.submodule and
+			    string.gsub(fileName,"[/\\]",".") or
+			    fileName;
+		spawn_module(output,tmp,src);
 	end
 end
 
-output:write(sourceFile[conf.mainFileName]);
+if conf.mainFileName
+then
+	output:write(sourceFile[conf.mainFileName]);
+end
 
 output:close();
 

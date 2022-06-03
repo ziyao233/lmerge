@@ -2,7 +2,7 @@
 --[[
 	lmerge
 	File:/src/lmerge.lua
-	Date:2021.12.18
+	Date:2022.06.03
 	By MIT License.
 	Copyright(C) 2021 Suote127.All rights reserved.
 ]]
@@ -12,6 +12,7 @@ local table = require("table");
 local conf = {
 		inputFileList		= {},
 		resourceFileList	= {},
+		name			= {},
 	     };
 	
 local get_module_name = function(fileName)
@@ -28,9 +29,10 @@ local get_max_equ_length = function(str)
 end
 
 local spawn_module = function(output,fileName,src)
+	local name = conf.name[fileName] or get_module_name(fileName);
 	local equs = string.rep("=",get_max_equ_length(src)+1);
 	local temp = string.format("\npackage.preload[\"%s\"] = assert(load([%s[\n%s\n]%s]));\n",
-				   get_module_name(fileName),equs,src,equs);
+				   name,equs,src,equs);
 
 	output:write(temp);
 
@@ -43,7 +45,7 @@ local spawn_resource = function(output,fileName)
 	local src  = file:read("a");
 	local equs = string.rep("=",get_max_equ_length(src)+1);
 	local temp = string.format("\n_G.lmerge[ [[%s]] ] = [%s[\n%s\n]%s];\n",
-				   fileName,equs,src,equs);
+				   conf.name[fileName] or fileName,equs,src,equs);
 	output:write(temp);
 
 	return;
@@ -84,6 +86,11 @@ do
 	       arg[i] == "--no-sharp-bang"
 	then
 		conf.noSharpBang = true;
+	elseif arg[i] == "-n" or
+	       arg[i] == "--name"
+	then
+		conf.name[arg[i + 1]] = arg[i + 2];
+		i = i + 2;
 	else
 		table.insert(target,arg[i]);
 	end

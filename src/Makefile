@@ -13,7 +13,7 @@ CHMOD		:= chmod
 SRC		:= lmerge.lua
 
 # Installing Target
-INSTALL_DIR	:= /bin
+INSTALL_DIR	:= /usr/bin
 INSTALL_FILE	:= ${INSTALL_DIR}/lmerge
 
 default: install

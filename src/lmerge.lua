@@ -4,7 +4,7 @@
 	File:/src/lmerge.lua
 	Date:2022.06.03
 	By MIT License.
-	Copyright(C) 2021 Suote127.All rights reserved.
+	Copyright(C) 2021 Ziyao.
 ]]
 
 local table = require("table");
@@ -14,7 +14,7 @@ local conf = {
 		resourceFileList	= {},
 		name			= {},
 	     };
-	
+
 local get_module_name = function(fileName)
 	return string.match(fileName,"(.+)%..-$");
 end

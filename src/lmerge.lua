@@ -35,11 +35,10 @@ local spawn_module = function(output,fileName,src)
 				   name,equs,src,equs);
 
 	output:write(temp);
-
-	return;
 end
 
-local spawn_resource = function(output,fileName)
+local function
+spawn_resource(output,fileName)
 	local file = assert(io.open(fileName,"r"));
 
 	local src  = file:read("a");
@@ -47,8 +46,28 @@ local spawn_resource = function(output,fileName)
 	local temp = string.format("\n_G.lmerge[ [[%s]] ] = [%s[\n%s\n]%s];\n",
 				   conf.name[fileName] or fileName,equs,src,equs);
 	output:write(temp);
+end
 
-	return;
+local function
+parseListFile(name)
+	local listFile = assert(io.open(name, "r"));
+	for line in listFile:lines()
+	do
+		if line:sub(1,1) == ':'
+		then
+			table.insert(conf.resourceFileList, line:sub(2));
+		else
+			local s, pos = line:match("([^:]+)()");
+			if line:sub(pos,pos) == ':'
+			then
+				table.insert(conf.inputFileList,
+					     line:sub(1,pos - 1));
+				conf.name[s] = line:sub(pos + 1);
+			else
+				table.insert(conf.inputFileList, line);
+			end
+		end
+	end
 end
 
 -- Analysis the command argument
@@ -91,6 +110,11 @@ do
 	then
 		conf.name[arg[i + 1]] = arg[i + 2];
 		i = i + 2;
+	elseif arg[i] == "-l" or
+	       arg[i] == "--list"
+	then
+		i = i + 1;
+		parseListFile(arg[i]);
 	else
 		table.insert(target,arg[i]);
 	end

@@ -36,10 +36,29 @@ submodules into module names
 - ``-n modulePath moduleName``, ``--name modulePath moduleName``: Specify the
 name of module modulePath, which could be used in ``require()``
 
+- ``-l``, ``--list``: Specify a file list.
+
 ## Resouce File
 
 Files marked with ``-r`` or ``--resource`` are Resouce Files, which can be used
-by ``lmerge[FILENAME]``, where ``lmerge`` is a table stored in ``_G``.
+by ``lmerge[FILEPATH]``, where ``lmerge`` is a table stored in ``_G``.
+
+Table ``lmerge`` exists ***ONLY*** with at least one resource file specified.
+
+``lmerge.resource(path)`` returns the content of resource file ``path``.
+
+## File List
+
+A file list is a text file containing a series of resource file paths, source
+files and aliases.
+
+### Grammar
+
+- ``PATH``: Specify a source file.
+
+- ``!RESOURCE_PATH``: Specify a resource file
+
+- ``PATH:ALIAS``: Set the module name of ``PATH`` to ``ALIAS``
 
 ## License
 

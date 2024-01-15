@@ -1,4 +1,4 @@
-#!/usr/bin/env lua
+#!/usr/bin/env lua5.4
 --[[
 	lmerge
 	File:/src/lmerge.lua
@@ -13,6 +13,7 @@ local conf = {
 		inputFileList		= {},
 		resourceFileList	= {},
 		name			= {},
+		luaName			= "lua5.4",
 	     };
 
 local get_module_name = function(fileName)
@@ -115,6 +116,11 @@ do
 	then
 		i = i + 1;
 		parseListFile(arg[i]);
+	elseif arg[i] == "-i" or
+	       arg[i] == "--lua"
+	then
+		i = i + 1;
+		conf.luaName = arg[i];
 	else
 		table.insert(target,arg[i]);
 	end
@@ -138,7 +144,7 @@ end
 local output = assert(io.open(conf.outputFileName,"w"));
 if not conf.noSharpBang or conf.module
 then
-	output:write("#!/usr/bin/env lua\n");
+	output:write(("#!/usr/bin/env %s\n"):format(conf.luaName));
 end
 if #conf.resourceFileList ~= 0
 then

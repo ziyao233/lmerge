@@ -11,6 +11,13 @@ Enter ``src`` directory and run
 $ make install
 ```
 
+This script only runs with a Lua 5.4 interpreter. If the interpreter on your
+system is not called `lua5.4`, specify its name with LUA_NAME when installing.
+
+```shell
+	$ make install LUA_NAME=lua54
+```
+
 You may want to run the command as root. The installing target is specified
 by ``INSTALL\_DIR``, which could be overriden on command line.
 
@@ -37,6 +44,9 @@ submodules into module names
 name of module modulePath, which could be used in ``require()``
 
 - ``-l``, ``--list``: Specify a file list.
+
+- `-i`, `--lua`: Specify name of the Lua interpreter, this will affect the
+sharp-bang line
 
 ## Resouce File
 

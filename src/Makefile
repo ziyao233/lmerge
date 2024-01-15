@@ -5,6 +5,8 @@
 # By MIT License
 # Copyright(C) 2021-2023 Ziyao.All rights reserved.
 
+LUA_NAME	?= lua5.4
+
 # Tools
 INSTALL		= install
 
@@ -12,10 +14,11 @@ INSTALL		= install
 SRC		:= lmerge.lua
 
 # Installing Target
-INSTALL_DIR	= /usr/bin
+INSTALL_DIR	= /usr/local/bin
 INSTALL_FILE	= ${INSTALL_DIR}/lmerge
 
 default: install
 
 install:
-	install -Dm 755 ${SRC} ${INSTALL_FILE}
+	sed -e "s/lua5.4/$(LUA_NAME)/" $(SRC) > $(SRC).tmp
+	install -Dm 755 ${SRC}.tmp ${INSTALL_FILE}

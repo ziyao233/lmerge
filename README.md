@@ -72,6 +72,6 @@ files and aliases.
 
 ## License
 
-By MIT License. Copyright (c) 2021 Ziyao.
+By MIT License. Copyright (c) 2021-2024 Yao Zi.
 
 Dedicated to my beloved AtomAlpaca.

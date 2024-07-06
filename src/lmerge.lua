@@ -2,9 +2,8 @@
 --[[
 	lmerge
 	File:/src/lmerge.lua
-	Date:2022.06.03
 	By MIT License.
-	Copyright(C) 2021 Ziyao.
+	Copyright(C) 2021-2024 Yao Zi <ziyao@disroot.org>.
 ]]
 
 local table = require("table");
